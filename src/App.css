@@ -1,3 +1,7 @@
+body{
+    border-color: #8f8f9d;
+}
+
 #search-bar {
     width: 25vw;
     min-width: 500px;
@@ -14,6 +18,7 @@
 }
 
 .bar > input{
+    outline: none;
     flex-grow: 9;
 }
 
@@ -23,19 +28,21 @@
     width: 22vw;
     min-width: 440px;
     padding: 5px;
-    box-shadow: 1px 1px 1px 1px #cec9c4;
+    box-shadow: 1px 1px 1px 1px #8f8f9d;
     border-radius: 5px;
     background:  white;
     border-style: solid;
     border-width: thin;
-    border-color: #cec9c4;
+    border-color: #8f8f9d;
 }
 
 .search-select {
+    cursor:pointer;
     height: 32px;
     width: 100%;
-    display: block;
+    border-radius: 5px;
 
+    display: block;
     border: none;
     background: none;
 
@@ -46,34 +53,58 @@
     outline: none;
     color: white;
     background: #3584e4;
-    border-radius: 5px;
+}
+
+#checkbox{
+    display: none;
 }
 
 #selector {
-    font-size:small;
+    height: 32px;
+    font-weight:300;
+
     width: 100px;
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
 
-    background:  white;
     border-style: solid;
     border-width: thin;
-    border-color: #cec9c4;
-    border-style: solid;
+    border-color: #8f8f9d;
+    
     border-radius: 5px;
-    padding: 5px;
+}
+
+#left, #right {
     text-align: center;
-    font-weight:300;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    border-style: none;
+    user-select: none;
+    cursor:pointer;
+}
+
+#left:hover, #left:focus, #right:hover, #right:focus{
+    color: white;
+    background: #3584e4;
 }
 
 #left{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
     border-right-style: solid;
-    border-right-width: thin;
-    border-right-color: #cec9c4;
+    border-right-width: 1px;
+    border-right-color: #8f8f9d;
 }
+
 #right{
-    border-left-width: thin;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    border-left-width: 1px;
     border-left-style: solid;
-    border-left-color: #cec9c4;
+    border-left-color: #8f8f9d;
 }

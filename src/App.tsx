@@ -3,13 +3,20 @@ import './App.css'
 import Search from './Search'
 import Weather from './Weather';
 
+export type Place = {
+    name: string,
+    state?: string,
+    country: string,
+    val: string
+}
+
 function App() {
-    const [location, setLocation] = useState();
+    const [place, setPlace] = useState<Place | undefined>();
 
     return (
         <>
-            <Search setLocation={setLocation} />
-            <Weather location={location}/>
+            <Search setPlace={setPlace} />
+            <Weather place={place} />
         </>
     )
 }
