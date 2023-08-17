@@ -1,8 +1,8 @@
 import { BiCurrentLocation } from 'react-icons/bi'
 import { MdLocationPin } from 'react-icons/md'
 import { Dispatch, FocusEvent, KeyboardEvent, SetStateAction, useEffect, useState } from 'react';
-import './Search.css'
 import { Place } from './App';
+import './Search.css'
 
 function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefined>> }) {
     const APPID = import.meta.env.VITE_APPID;
@@ -59,9 +59,9 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
     }
 
     const keyDown = (e: KeyboardEvent) => {
-        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Tab') {
             e.preventDefault();
-            if (e.key === 'ArrowDown') {
+            if (e.key === 'ArrowDown' || e.key === 'Tab') {
                 index + 1 < result.length ? setIndex(index + 1) : setIndex(0);
             } else {
                 index - 1 < 0 ? setIndex(result.length - 1) : setIndex(index - 1);
@@ -112,7 +112,7 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
                 show && result.length > 0 && (
                     <div id='results'>
                         {result.map((p: Place, i: number) => (
-                            <button onFocus={() => setNavigating(true)} onBlur={(e) => handleBtnBlur(e)} onKeyDown={(e) => keyDown(e)} id={'sel' + i} key={i} className='search-select' tabIndex={i + 1} onClick={() => handleClick(p)}>
+                            <button onFocus={() => setNavigating(true)} onBlur={(e) => handleBtnBlur(e)} onKeyDown={(e) => keyDown(e)} id={'sel' + i} key={i} className='search-select' onClick={() => handleClick(p)}>
                                 <MdLocationPin /> {p.name} {p.state}, {countryStr(p.country)}
                             </button>
                         ))}
