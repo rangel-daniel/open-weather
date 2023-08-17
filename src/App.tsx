@@ -7,7 +7,8 @@ export type Place = {
     name: string,
     state?: string,
     country: string,
-    val: string
+    val: string,
+    string: string
 }
 
 function App() {

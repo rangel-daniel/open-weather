@@ -1,6 +1,7 @@
 import { BiCurrentLocation } from 'react-icons/bi'
 import { MdLocationPin } from 'react-icons/md'
 import { Dispatch, FocusEvent, KeyboardEvent, SetStateAction, useEffect, useState } from 'react';
+import './Search.css'
 import { Place } from './App';
 
 function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefined>> }) {
@@ -88,13 +89,14 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
         const name = place.name;
         const state = place.state;
 
-        place['val'] = `${name}${state ? ', ' + state : ''}, ${place.country} `
+        place['val'] = `${name}${state ? ', ' + state : ''}, ${place.country}`
 
         const country = fullName.of(place.country);
 
         if (country)
             place['country'] = country;
 
+        place['string'] = `${name}${state ? ', ' + state : ''}, ${place.country} `
         setQuery(place['val']);
         setPlace(place);
         setNavigating(false);
@@ -108,14 +110,12 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
             </div>
             {
                 show && result.length > 0 && (
-                    <div className='bar'>
-                        <div id='results'>
-                            {result.map((p: Place, i: number) => (
-                                <button onFocus={() => setNavigating(true)} onBlur={(e) => handleBtnBlur(e)} onKeyDown={(e) => keyDown(e)} id={'sel' + i} key={i} className='search-select' tabIndex={i + 1} onClick={() => handleClick(p)}>
-                                    <MdLocationPin /> {p.name} {p.state}, {countryStr(p.country)}
-                                </button>
-                            ))}
-                        </div>
+                    <div id='results'>
+                        {result.map((p: Place, i: number) => (
+                            <button onFocus={() => setNavigating(true)} onBlur={(e) => handleBtnBlur(e)} onKeyDown={(e) => keyDown(e)} id={'sel' + i} key={i} className='search-select' tabIndex={i + 1} onClick={() => handleClick(p)}>
+                                <MdLocationPin /> {p.name} {p.state}, {countryStr(p.country)}
+                            </button>
+                        ))}
                     </div>
                 )
             }
