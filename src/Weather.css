@@ -1,8 +1,19 @@
+#weather-box{
+    border-style: solid;
+    border-width: thin;
+    border-color: #8f8f9d;
+    border-radius: 5px;
+
+    padding: 10px;
+    width: calc(25vw - 20px);
+    min-width: 480px;
+    font-size: large;
+}
+
 #selector {
     height: 32px;
-    font-weight:300;
-
     width: 100px;
+
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
@@ -15,6 +26,8 @@
 }
 
 #left, #right {
+    font-size:small;
+    font-weight:200;
     text-align: center;
     display: flex;
     place-items: center;
@@ -25,25 +38,18 @@
     cursor:pointer;
 }
 
-#left:hover, #left:focus, #right:hover, #right:focus{
-    color: white;
-    background: #3584e4;
-}
-
 #left{
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-
-    border-right-style: solid;
-    border-right-width: 1px;
-    border-right-color: #8f8f9d;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
 #right{
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 
-    border-left-width: 1px;
+    border-left-width: thin;
     border-left-style: solid;
     border-left-color: #8f8f9d;
 }
+
+

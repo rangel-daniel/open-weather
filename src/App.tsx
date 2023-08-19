@@ -9,6 +9,8 @@ export type Place = {
     country: string,
     val: string,
     string: string
+    lat: number,
+    lon: number
 }
 
 function App() {
@@ -22,4 +24,4 @@ function App() {
     )
 }
 
-export default App
+export default App 

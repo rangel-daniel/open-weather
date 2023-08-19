@@ -100,6 +100,7 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
         setQuery(place['val']);
         setPlace(place);
         setNavigating(false);
+        console.log(place)
     }
 
     return (
