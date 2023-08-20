@@ -1,0 +1,33 @@
+#top {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+#main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    position: relative;
+}
+
+
+#main > label{
+    font-weight:lighter ;
+    font-size: small;
+    position: absolute;
+
+    bottom: 20px;
+    padding: 5px;
+    border-radius: 5px;
+
+    border-style: solid;
+    border-width: thin;
+    border-color: #8f8f9d;
+}
+
+#temp{
+    display: flex;
+    justify-content: space-around;
+}

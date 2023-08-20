@@ -96,7 +96,7 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
         if (country)
             place['country'] = country;
 
-        place['string'] = `${name}${state ? ', ' + state : ''}, ${place.country} `
+        place['string'] = `${name} ${state ? state : ''}, ${place.country} `
         setQuery(place['val']);
         setPlace(place);
         setNavigating(false);

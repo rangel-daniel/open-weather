@@ -2,14 +2,17 @@ import { Properties } from 'csstype'
 import { useEffect, useState } from 'react';
 import { Place } from './App';
 import './Weather.css'
-import { CurrentWeather } from './WeatherData';
+import { Current, FiveDay } from './WeatherData';
+
+import CurrentWeather from './CurrentWeather';
 
 const APPID = import.meta.env.VITE_APPID;
 
 function Weather({ place }: { place?: Place }) {
     const [is_curr, setIsCurr] = useState(false);
 
-    const [curr, setCurr] = useState<CurrentWeather>();
+    const [current, setCurrent] = useState<Current>();
+    const [five_day, setFiveDay] = useState<FiveDay>();
 
     const l_bg: Properties = {
         backgroundColor: is_curr ? 'transparent' : '#3584e4',
@@ -27,13 +30,13 @@ function Weather({ place }: { place?: Place }) {
             const response = await fetch(url);
             const data = await response.json();
             console.log(data)
-            setCurr(data);
+            setCurrent(data);
         }
 
-        if (is_curr && place && !curr) {
+        if (is_curr && place && !current) {
             getCurr(place.lat, place.lon);
         }
-    }, [is_curr, place, curr])
+    }, [is_curr, place, current])
 
 
     return (
@@ -43,12 +46,15 @@ function Weather({ place }: { place?: Place }) {
                 <div id="right" onClick={() => setIsCurr(true)} style={r_bg}>Current</div>
             </label>
 
-            <h2>
-                {place?.string}
-            </h2>
+            <div id='location-outer'>
+                <div id='location'>
+                    <h2> {place?.string} <hr /></h2>
 
-            {is_curr ? (
-                <h3>@todo current weather!</h3>
+                </div>
+            </div>
+
+            {is_curr && current ? (
+                <CurrentWeather current={current} />
             ) : (
                 <h3>@todo 5 day weather forecast!</h3>
             )}

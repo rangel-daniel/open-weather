@@ -1,4 +1,4 @@
-export type WeekWeather = {
+export type FiveDay = {
     list:
     {
         main: {
@@ -49,7 +49,7 @@ export type WeekWeather = {
     }
 }
 
-export type CurrentWeather = {
+export type Current = {
     main: {
         temp: number,
         feels_like: number,
@@ -89,4 +89,40 @@ export type CurrentWeather = {
     visibility: number,
     dt: number,
     timezone: number,
+}
+
+export function getIcon(size: 's' | 'm' | 'l' = 's', icon: string, main: string) {
+    const end = {
+        s: `${icon}.png`,
+        m: `${icon}@2x.png`,
+        l: `${icon}@4x.png`
+    }
+    const url = `https://openweathermap.org/img/wn/${end[size]}`;
+
+    return (
+        <img alt={main} src={url} />
+    )
+
+}
+
+export function getDay(day: number): string {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    return days[day];
+}
+export function getAmPm(_date: Date | number, shift: number = 0): string {
+    const date: Date = _date instanceof Date ? _date : unixToDate(_date, shift)
+
+    let hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+
+    const period = hours < 12 ? 'AM' : 'PM';
+    hours = hours % 12 === 0 ? 12 : hours % 12;
+    const prettyMins = minutes < 10 ? '0' + minutes : minutes;
+
+    return `${hours}:${prettyMins} ${period}`
+}
+
+export function unixToDate(time: number, shift: number) {
+    return new Date((time + shift) * 1000);
 }
