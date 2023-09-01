@@ -4,6 +4,7 @@
     border-color: #8f8f9d;
     border-radius: 5px;
 
+    height: 600px;
     padding: 10px;
     width: calc(25vw - 20px);
     min-width: 480px;
@@ -86,4 +87,21 @@ hr {
     border-left-style: solid;
 }
 
+.spinner {
+  display: inline-block;
+  animation: spin 1s infinite linear;
+}
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#center-main{
+    display: grid;
+    place-items: center;
+}

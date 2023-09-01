@@ -1,6 +1,7 @@
+import { BsArrowUp } from 'react-icons/bs';
 export type FiveDay = {
-    list:
-    {
+    list: {
+        dt: number,
         main: {
             temp: number,
             feels_like: number,
@@ -13,12 +14,10 @@ export type FiveDay = {
             temp_kf: number
         },
         weather: {
-            id: number,
             main: string,
             description: string,
             icon: string
-        }[]
-        ,
+        }[],
         wind: {
             speed: number,
             deg: number,
@@ -37,15 +36,54 @@ export type FiveDay = {
         },
         sys: {
             pod: string
-        },
-        dt: number,
-    }[]
-    ,
+        }
+    }[],
     city: {
-        population: number,
-        timezone: number,
-        sunrise: number,
-        sunset: number
+        timezone: number
+    }
+}
+
+export type ParsedDay = {
+    day: string,
+    data: ThreeHrBlock[]
+}
+
+export type ThreeHrBlock = {
+    dt: number,
+    main: {
+        temp: number,
+        feels_like: number,
+        temp_min: number,
+        temp_max: number,
+        pressure: number,
+        sea_level: number,
+        grnd_level: number,
+        humidity: number,
+        temp_kf: number
+    },
+    weather: {
+        main: string,
+        description: string,
+        icon: string
+    }[],
+    wind: {
+        speed: number,
+        deg: number,
+        gust: number
+    },
+    clouds: {
+        all: number
+    },
+    visibility: number,
+    pop: number,
+    rain?: {
+        '3h'?: number
+    },
+    snow?: {
+        '3h'?: number
+    },
+    sys: {
+        pod: string
     }
 }
 
@@ -105,11 +143,23 @@ export function getIcon(size: 's' | 'm' | 'l' = 's', icon: string, main: string)
 
 }
 
+export function getDeg(deg: number) {
+    return (
+        <>
+            {deg}&deg;
+            <span style={{ display: 'inline-block', transform: `rotate(${deg}deg)` }}>
+                <BsArrowUp />
+            </span>
+        </>
+    )
+}
+
 export function getDay(day: number): string {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     return days[day];
 }
+
 export function getAmPm(_date: Date | number, shift: number = 0): string {
     const date: Date = _date instanceof Date ? _date : unixToDate(_date, shift)
 

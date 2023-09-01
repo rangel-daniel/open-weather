@@ -54,7 +54,7 @@ h3 {
     text-align: right;
 }
 
-tr td {
+.tr, .row, .col {
     border-radius: 5px;
     border: thin solid #8f8f9d;
     padding: 8px;

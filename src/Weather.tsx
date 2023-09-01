@@ -2,9 +2,12 @@ import { Properties } from 'csstype'
 import { useEffect, useState } from 'react';
 import { Place } from './App';
 import './Weather.css'
-import { Current } from './WeatherData';
+import { Current, FiveDay } from './WeatherData';
+
+import { ImSpinner } from 'react-icons/im'
 
 import CurrentWeather from './CurrentWeather';
+import FiveDayWeather from './FiveDayWeather';
 
 const APPID = import.meta.env.VITE_APPID;
 
@@ -13,6 +16,7 @@ function Weather({ place }: { place?: Place }) {
     const [is_imp, setIsImp] = useState(true);
 
     const [current, setCurrent] = useState<Current>();
+    const [five_day, setFiveDay] = useState<FiveDay>();
 
     const l_bg: Properties = {
         backgroundColor: !is_curr ? 'transparent' : '#3584e4',
@@ -29,14 +33,22 @@ function Weather({ place }: { place?: Place }) {
             const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${APPID}`
             const response = await fetch(url);
             const data = await response.json();
-            console.log(data)
             setCurrent(data);
         }
 
-        if (is_curr && place && !current) {
-            getCurr(place.lat, place.lon);
+        const getFiveDay = async (lat: number, lon: number) => {
+            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${APPID}`
+            const response = await fetch(url);
+            const data = await response.json();
+            setFiveDay(data);
+            console.log(data);
         }
-    }, [is_curr, place, current])
+
+        if (place) {
+            getCurr(place.lat, place.lon);
+            getFiveDay(place.lat, place.lon)
+        }
+    }, [place])
 
 
     return (
@@ -55,16 +67,20 @@ function Weather({ place }: { place?: Place }) {
             <div id='location-outer'>
                 <div id='location'>
                     <h2> {place?.string} <hr /></h2>
-
                 </div>
             </div>
 
-            {is_curr && current ? (
-                <CurrentWeather current={current} />
+            {place ? (
+                is_curr && current ? (<CurrentWeather data={current} />) :
+                    !is_curr && five_day ? (<FiveDayWeather data={five_day} />) :
+                        <div id='center-main'>
+                            (<ImSpinner className='spinner' />)
+                        </div>
             ) : (
-                <h3>@todo 5 day weather forecast!</h3>
+                <div id='center-main'>
+                    <h3> Please select a location 🗺️ </h3>
+                </div>
             )}
-
         </div>
     )
 }

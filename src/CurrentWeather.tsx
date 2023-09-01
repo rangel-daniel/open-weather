@@ -1,18 +1,18 @@
-import { Current, getAmPm, getDay, getIcon, unixToDate } from "./WeatherData"
-import { BsEyeFill, BsSnow2, BsArrowUp, BsSunriseFill, BsSunsetFill, BsCloudFill, BsCloudRainFill } from 'react-icons/bs';
+import { Current, getAmPm, getDay, getDeg, getIcon, unixToDate } from "./WeatherData"
+import { BsEyeFill, BsSnow2, BsSunriseFill, BsSunsetFill, BsCloudFill, BsCloudRainFill } from 'react-icons/bs';
 import './CurrentWeather.css'
 
-function CurrentWeather({ current }: { current: Current }) {
-    const weather = current.weather[0];
+function CurrentWeather({ data }: { data: Current }) {
+    const weather = data.weather[0];
 
-    const main = current.main;
-    const wind = current.wind;
+    const main = data.main;
+    const wind = data.wind;
     const icon = getIcon('l', weather.icon, weather.main);
 
-    const sunrise = getAmPm(current.sys.sunrise, current.timezone);
-    const sunset = getAmPm(current.sys.sunset, current.timezone);
+    const sunrise = getAmPm(data.sys.sunrise, data.timezone);
+    const sunset = getAmPm(data.sys.sunset, data.timezone);
 
-    const dt = unixToDate(current.dt, current.timezone);
+    const dt = unixToDate(data.dt, data.timezone);
     const day = getDay(dt.getUTCDay());
     const time = getAmPm(dt);
 
@@ -31,23 +31,22 @@ function CurrentWeather({ current }: { current: Current }) {
                 <span id="wind">
                     <h4>Wind</h4>
                     <table id="wind-table">
-                        <tr>
-                            <td className="col">speed</td>
-                            <td className="row">{wind.speed}</td>
-                        </tr>
-                        <tr>
-                            <td className="col">degree</td>
-                            <td className="row">
-                                <span style={{ display: 'inline-block', transform: `rotate(${wind.deg}deg)` }}>
-                                    <BsArrowUp />
-                                </span>
-                                &nbsp;{wind.deg}&deg;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="col">gust</td>
-                            <td className="row">{wind.gust}</td>
-                        </tr>
+                        <tbody>
+                            <tr className="tr">
+                                <td className="col">speed</td>
+                                <td className="row">{wind.speed}</td>
+                            </tr>
+                            <tr className="tr">
+                                <td className="col">degree</td>
+                                <td className="row">
+                                    {getDeg(wind.deg)}
+                                </td>
+                            </tr>
+                            <tr className="tr">
+                                <td className="col">gust</td>
+                                <td className="row">{wind.gust}</td>
+                            </tr>
+                        </tbody>
                     </table>
 
                 </span>
@@ -60,52 +59,39 @@ function CurrentWeather({ current }: { current: Current }) {
                 <span id="temp">
                     <h4>Temperature</h4>
                     <table id="temp-table">
-                        <tr>
-                            <td className="col">feels like</td>
-                            <td className="row">{main.feels_like}</td>
-                        </tr>
-                        <tr>
-                            <td className="col">min</td>
-                            <td className="row">{main.temp_min}</td>
-                        </tr>
-                        <tr>
-                            <td className="col">max</td>
-                            <td className="row">{main.temp_max}</td>
-                        </tr>
+                        <tbody>
+                            <tr className="tr">
+                                <td className="col">feels like</td>
+                                <td className="row">{main.feels_like}</td>
+                            </tr>
+                            <tr className="tr">
+                                <td className="col">min</td>
+                                <td className="row">{main.temp_min}</td>
+                            </tr>
+                            <tr className="tr">
+                                <td className="col">max</td>
+                                <td className="row">{main.temp_max}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </span>
             </div>
             <div id="misc">
                 <p>
-                    <p>
-                        <b>Sea level</b>: {main.sea_level}<b>hPa</b>
-                    </p>
-                    <p>
-                        <b>Ground level</b>: {main.grnd_level}<b>hPa</b>
-                    </p>
-                    <p>
-                        <b>Pressure</b>: {main.grnd_level}<b>hPa</b>
-                    </p>
-                    <p>
-                        <b>Humidity</b>: {main.humidity}%
-                    </p>
+                    <b>Sea level</b>: {main.sea_level}<b>hPa</b> <br />
+                    <b>Ground level</b>: {main.grnd_level}<b>hPa</b> <br />
+                    <b>Pressure</b>: {main.grnd_level}<b>hPa</b> <br />
+                    <b>Humidity</b>: {main.humidity}%
                 </p>
+
                 <p>
-                    {current.snow ? (
-                        <p>
-                            <BsSnow2 />
-                        </p>
-                    ) : current.rain ? (
-                        <p>
-                            <BsCloudRainFill title='rain volume' /> {current.rain["1h"]}mm/hr
-                        </p>
-                    ) : undefined}
-                    <p>
-                        <BsCloudFill title='cloudiness' /> {current.clouds.all}%
-                    </p>
-                    <p>
-                        <BsEyeFill title='visibility' /> {current.visibility / 1000}km
-                    </p>
+                    {
+                        data.snow ? (<> <BsSnow2 title='snow volume' /> {data.snow["1h"]}mm/hr <br /> </>) :
+                            data.rain ? (<> <BsCloudRainFill title='rain volume' /> {data.rain["1h"]}mm/hr <br /> </>) :
+                                undefined
+                    }
+                    <BsCloudFill title='cloudiness' /> {data.clouds.all}% <br />
+                    <BsEyeFill title='visibility' /> {data.visibility / 1000}km <br />
                 </p>
             </div>
         </div>
