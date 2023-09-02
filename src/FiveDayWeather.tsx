@@ -2,7 +2,7 @@ import { FiveDay, ParsedDay, getDay, unixToDate } from "./WeatherData";
 import './FiveDayWeather.css'
 import { useEffect, useState } from "react";
 import DayWeather from "./DayWeather";
-function FiveDayWeather({ data }: { data: FiveDay }) {
+function FiveDayWeather({ data, is_imp }: { data: FiveDay, is_imp: boolean }) {
     const [parsed, setParsed] = useState<ParsedDay[]>([])
     const [selected, setSelected] = useState(0);
     const timezone = data.city.timezone;
@@ -53,9 +53,11 @@ function FiveDayWeather({ data }: { data: FiveDay }) {
                     </span>
                 ))}
             </div>
-            {
-                parsed[selected] && (<DayWeather timezone={timezone} data={parsed[selected].data} />)
-            }
+            <div id="day-data">
+                {
+                    parsed[selected] && (<DayWeather is_imp={is_imp} timezone={timezone} data={parsed[selected].data} />)
+                }
+            </div>
         </>
     )
 }

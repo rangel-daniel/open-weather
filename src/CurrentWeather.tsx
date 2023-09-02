@@ -1,8 +1,8 @@
-import { Current, getAmPm, getDay, getDeg, getIcon, unixToDate } from "./WeatherData"
+import { Current, getMs, getInch, getC, getAmPm, getDay, getDeg, getIcon, unixToDate } from "./WeatherData"
 import { BsEyeFill, BsSnow2, BsSunriseFill, BsSunsetFill, BsCloudFill, BsCloudRainFill } from 'react-icons/bs';
 import './CurrentWeather.css'
 
-function CurrentWeather({ data }: { data: Current }) {
+function CurrentWeather({ data, is_imp }: { data: Current, is_imp: boolean }) {
     const weather = data.weather[0];
 
     const main = data.main;
@@ -15,6 +15,7 @@ function CurrentWeather({ data }: { data: Current }) {
     const dt = unixToDate(data.dt, data.timezone);
     const day = getDay(dt.getUTCDay());
     const time = getAmPm(dt);
+
 
 
     return (
@@ -34,17 +35,19 @@ function CurrentWeather({ data }: { data: Current }) {
                         <tbody>
                             <tr className="tr">
                                 <td className="col">speed</td>
-                                <td className="row">{wind.speed}</td>
-                            </tr>
-                            <tr className="tr">
-                                <td className="col">degree</td>
                                 <td className="row">
-                                    {getDeg(wind.deg)}
+                                    {is_imp ? (wind.speed + 'mph') : (getMs(wind.speed))}
                                 </td>
                             </tr>
                             <tr className="tr">
+                                <td className="col">degree</td>
+                                <td className="row"> {getDeg(wind.deg)} </td>
+                            </tr>
+                            <tr className="tr">
                                 <td className="col">gust</td>
-                                <td className="row">{wind.gust}</td>
+                                <td className="row">
+                                    {is_imp ? (wind.gust + 'mph') : (getMs(wind.gust))}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -53,7 +56,8 @@ function CurrentWeather({ data }: { data: Current }) {
 
                 <div id="icon-temp">
                     {icon}
-                    <h4> {main.temp}</h4>
+                    <h4> {is_imp ? (main.temp + '°F') : (getC(main.temp))}</h4>
+
                 </div>
 
                 <span id="temp">
@@ -62,36 +66,53 @@ function CurrentWeather({ data }: { data: Current }) {
                         <tbody>
                             <tr className="tr">
                                 <td className="col">feels like</td>
-                                <td className="row">{main.feels_like}</td>
+                                <td className="row">
+                                    {is_imp ? (main.feels_like + '°F') : (getC(main.feels_like))}
+                                </td>
                             </tr>
                             <tr className="tr">
                                 <td className="col">min</td>
-                                <td className="row">{main.temp_min}</td>
+                                <td className="row">
+                                    {is_imp ? (main.temp_min + '°F') : (getC(main.temp_min))}
+                                </td>
                             </tr>
                             <tr className="tr">
                                 <td className="col">max</td>
-                                <td className="row">{main.temp_max}</td>
+                                <td className="row">
+                                    {is_imp ? (main.temp_max + '°F') : (getC(main.temp_max))}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </span>
             </div>
             <div id="misc">
-                <p>
-                    <b>Sea level</b>: {main.sea_level}<b>hPa</b> <br />
-                    <b>Ground level</b>: {main.grnd_level}<b>hPa</b> <br />
-                    <b>Pressure</b>: {main.grnd_level}<b>hPa</b> <br />
+                <div>
                     <b>Humidity</b>: {main.humidity}%
-                </p>
+                    {main.sea_level && <div><b>Sea level</b>: {main.sea_level}<span className="faint">hPa </span> </div>}
+                    {main.grnd_level && <div><b>Ground level</b>: {main.grnd_level}<span className="faint">hPa </span></div>}
+                    {main.pressure && <div><b>Pressure</b>: {main.pressure}<span className="faint">hPa </span></div>}
+                </div>
 
                 <p>
                     {
-                        data.snow ? (<> <BsSnow2 title='snow volume' /> {data.snow["1h"]}mm/hr <br /> </>) :
-                            data.rain ? (<> <BsCloudRainFill title='rain volume' /> {data.rain["1h"]}mm/hr <br /> </>) :
-                                undefined
+                        data.snow ? (
+                            <>
+                                <BsSnow2 title='snow volume' /> &nbsp;
+                                {is_imp && data.snow['1h'] ? (getInch(data.snow["1h"])) : (data.snow["1h"] + 'mm/hr')}<br />
+
+                            </>
+                        ) :
+                            data.rain ? (
+                                <>
+                                    <BsCloudRainFill title='snow volume' /> &nbsp;
+                                    {is_imp && data.rain['1h'] ? (getInch(data.rain["1h"])) : (data.rain["1h"] + 'mm/hr')}<br />
+
+                                </>
+                            ) : undefined
                     }
                     <BsCloudFill title='cloudiness' /> {data.clouds.all}% <br />
-                    <BsEyeFill title='visibility' /> {data.visibility / 1000}km <br />
+                    <BsEyeFill title='visibility' /> {data.visibility / 100}% <br />
                 </p>
             </div>
         </div>

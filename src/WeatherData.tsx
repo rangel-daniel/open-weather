@@ -138,7 +138,7 @@ export function getIcon(size: 's' | 'm' | 'l' = 's', icon: string, main: string)
     const url = `https://openweathermap.org/img/wn/${end[size]}`;
 
     return (
-        <img alt={main} src={url} />
+        <img alt={main} src={url} title={main} />
     )
 
 }
@@ -146,7 +146,7 @@ export function getIcon(size: 's' | 'm' | 'l' = 's', icon: string, main: string)
 export function getDeg(deg: number) {
     return (
         <>
-            {deg}&deg;
+            <span style={{ opacity: '0.6' }}>{deg}&deg;</span>
             <span style={{ display: 'inline-block', transform: `rotate(${deg}deg)` }}>
                 <BsArrowUp />
             </span>
@@ -175,4 +175,17 @@ export function getAmPm(_date: Date | number, shift: number = 0): string {
 
 export function unixToDate(time: number, shift: number) {
     return new Date((time + shift) * 1000);
+}
+
+
+export const getMs = (mph: number) => {
+    return (mph / 2.237).toFixed(2) + 'm/s'
+}
+
+export const getC = (f: number) => {
+    return ((f - 32) * (5 / 9)).toFixed(2) + '°C'
+}
+
+export const getInch = (mm: number) => {
+    return (mm / 2.54).toFixed(2) + 'in/hr';
 }

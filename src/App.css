@@ -1,3 +1,5 @@
 body{
-    border-color: #8f8f9d;
+    height: 98vh;
+    display: grid;
+    place-items: center;
 }

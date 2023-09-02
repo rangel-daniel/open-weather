@@ -71,10 +71,10 @@ function Weather({ place }: { place?: Place }) {
             </div>
 
             {place ? (
-                is_curr && current ? (<CurrentWeather data={current} />) :
-                    !is_curr && five_day ? (<FiveDayWeather data={five_day} />) :
+                is_curr && current ? (<CurrentWeather is_imp={is_imp} data={current} />) :
+                    !is_curr && five_day ? (<FiveDayWeather is_imp={is_imp} data={five_day} />) :
                         <div id='center-main'>
-                            (<ImSpinner className='spinner' />)
+                            <ImSpinner className='spinner' />
                         </div>
             ) : (
                 <div id='center-main'>

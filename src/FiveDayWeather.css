@@ -11,11 +11,12 @@
     border-radius: 5px;
     text-decoration: underline;
     font-size: medium;
+    cursor: pointer;
 }
 
-.tab:hover{
-    text-decoration: none;
-    cursor: pointer;
-    background-color: #D3D3D3AA;
+#day-data{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 

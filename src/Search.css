@@ -1,6 +1,7 @@
 #search-bar {
     width: 25vw;
-    min-width: 500px;
+    min-width: 620px;
+    max-width: 725px;
     font-size: large;
 }
 
@@ -10,7 +11,8 @@
 }
 
 .bar> button{
-    flex-grow: 1;
+    cursor: pointer;
+    width: 32px;
 }
 
 .bar > input{

@@ -1,0 +1,26 @@
+.align-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+tr td {
+    border-bottom-style: solid;
+    border-width: thin;
+}
+
+.center-text{
+    text-align: center;
+}
+
+.faint{
+    font-size: small;
+    margin: 0;
+    opacity: 0.6;
+}
+
+th {
+    opacity: 0.7;
+    border-bottom-style: solid;
+    border-width: thin;
+}
