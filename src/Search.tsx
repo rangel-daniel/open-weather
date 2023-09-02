@@ -1,6 +1,6 @@
 import { BiCurrentLocation } from 'react-icons/bi'
 import { MdLocationPin } from 'react-icons/md'
-import { Dispatch, FocusEvent, KeyboardEvent, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, FocusEvent, KeyboardEvent, SetStateAction, useCallback, useEffect, useState } from 'react';
 import { Place } from './App';
 import './Search.css'
 
@@ -16,10 +16,11 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
     const [typing, setTyping] = useState(false);
     const [navigating, setNavigating] = useState(false);
 
+
     useEffect(() => {
         const handleSearch = async () => {
             if (query.length) {
-                const url = `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=3&appid=${APPID}`
+                const url = `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${APPID}`
                 const response = await fetch(url);
                 const data = await response.json() as Place[];
                 setResult(data);
@@ -46,6 +47,38 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
     }, [typing, navigating])
 
     const fullName = new Intl.DisplayNames(['en'], { type: 'region' });
+
+    const getGeo = () => {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const coords = position.coords;
+                const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${coords.latitude}&lon=${coords.longitude}&appid=${APPID}`;
+
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.length > 0) {
+                            handleClick(data[0]);
+                            console.log(data);
+                        } else {
+                            console.error('No data received from the API');
+                        }
+                    } else {
+                        console.error('Failed to fetch data from the API');
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                }
+            },
+            (error) => {
+                console.error(error.message);
+            });
+    }
+
+    useEffect(() => {
+        getGeo();
+    },[]);
 
     const countryStr = (code: string): string => {
         let country: string | undefined;
@@ -107,7 +140,7 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
         <div id='search-bar'>
             <div className='bar'>
                 <input onKeyDown={(e) => keyDown(e)} id='search' type='search' value={query} placeholder='Search for location' onChange={(e) => setQuery(e.target.value)} onFocus={() => handleSearchFocus()} onBlur={() => setTyping(false)} />
-                <button> <BiCurrentLocation /> </button>
+                <button onClick={() => getGeo()}> <BiCurrentLocation /> </button>
             </div>
             {
                 show && result.length > 0 && (
