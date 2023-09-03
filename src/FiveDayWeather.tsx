@@ -37,7 +37,6 @@ function FiveDayWeather({ data, is_imp }: { data: FiveDay, is_imp: boolean }) {
         }
 
         setParsed(new_parsed);
-        console.log('new parsed', new_parsed);
     }, [data])
 
     return (

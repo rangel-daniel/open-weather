@@ -39,7 +39,6 @@ function Weather({ place }: { place?: Place }) {
             const response = await fetch(url);
             const data = await response.json();
             setFiveDay(data);
-            console.log(data);
         }
 
         if (place) {

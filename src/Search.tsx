@@ -20,7 +20,7 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
     useEffect(() => {
         const handleSearch = async () => {
             if (query.length) {
-                const url = `htts://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${APPID}`
+                const url = `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${APPID}`
                 const response = await fetch(url);
                 const data = await response.json() as Place[];
                 setResult(data);
@@ -60,7 +60,6 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
                         const data = await response.json();
                         if (data.length > 0) {
                             handleClick(data[0]);
-                            console.log(data);
                         } else {
                             console.error('No data received from the API');
                         }
@@ -68,17 +67,17 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
                         console.error('Failed to fetch data from the API');
                     }
                 } catch (error) {
-                    console.error('An error occurred:', error);
+                    console.error('An error occoured while requesting data from API');
                 }
             },
-            (error) => {
-                console.error(error.message);
+            () => {
+                console.error('An error occoured while requesting data from API');
             });
     }
 
     useEffect(() => {
         getGeo();
-    },[]);
+    }, []);
 
     const countryStr = (code: string): string => {
         let country: string | undefined;
@@ -133,7 +132,6 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
         setQuery(place['val']);
         setPlace(place);
         setNavigating(false);
-        console.log(place)
     }
 
     return (
