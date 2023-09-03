@@ -19,13 +19,11 @@ function Weather({ place }: { place?: Place }) {
     const [five_day, setFiveDay] = useState<FiveDay>();
 
     const l_bg: Properties = {
-        backgroundColor: !is_curr ? 'transparent' : '#3584e4',
-        color: !is_curr ? 'black' : 'white'
+        backgroundColor: !is_curr ? 'transparent' : '#c1593f',
     }
 
     const r_bg: Properties = {
-        backgroundColor: is_curr ? 'transparent' : '#3584e4',
-        color: is_curr ? 'black' : 'white'
+        backgroundColor: is_curr ? 'transparent' : '#c1593f',
     }
 
     useEffect(() => {
@@ -64,10 +62,8 @@ function Weather({ place }: { place?: Place }) {
                 </span>
             </div>
 
-            <div id='location-outer'>
-                <div id='location'>
-                    <h2> {place?.string} <hr /></h2>
-                </div>
+            <div id='location'>
+                <h2> {place?.string} </h2>
             </div>
 
             {place ? (

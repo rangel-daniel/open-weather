@@ -1,6 +1,6 @@
 import { BiCurrentLocation } from 'react-icons/bi'
 import { MdLocationPin } from 'react-icons/md'
-import { Dispatch, FocusEvent, KeyboardEvent, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { Dispatch, FocusEvent, KeyboardEvent, SetStateAction, useEffect, useState } from 'react';
 import { Place } from './App';
 import './Search.css'
 

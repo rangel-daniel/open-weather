@@ -45,7 +45,7 @@ function FiveDayWeather({ data, is_imp }: { data: FiveDay, is_imp: boolean }) {
             <div id="tabs">
                 {parsed.map((day, i) => (
                     <span
-                        style={i === selected ? { textDecoration: 'none', backgroundColor: '#D3D3D3AA' } : undefined}
+                        style={i === selected ? { textDecoration: 'none', backgroundColor: 'rgba(193, 89, 63, 0.5)' } : undefined}
                         key={i}
                         className="tab"
                         onClick={() => setSelected(i)}>

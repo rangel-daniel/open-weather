@@ -2,15 +2,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     user-select: none;
+    overflow: auto;
+    margin: 0 0 15px 0;
 }
 
 .tab{
     padding: 10px;
     border-radius: 5px;
-    text-decoration: underline;
-    font-size: medium;
     cursor: pointer;
 }
 

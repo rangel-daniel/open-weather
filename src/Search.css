@@ -1,8 +1,7 @@
 #search-bar {
-    width: 25vw;
-    min-width: 620px;
-    max-width: 725px;
-    font-size: large;
+    width:calc(30vw + 2px);
+    min-width:calc(352px + 2vw);
+    max-width:calc(1000px + 2vw);
 }
 
 .bar{
@@ -13,42 +12,63 @@
 .bar> button{
     cursor: pointer;
     width: 32px;
+    border-radius: 0;
+    border-style: none;
+    background-color: #9e511a;
 }
 
 .bar > input{
+    background-color: #010409;
+    border-color: #30363d;
+
+    border-width: 1px;
+    border-style: solid;
+    border-right-style: none;
+
+    color: white;
     outline: none;
     flex-grow: 9;
+
 }
 
 #results {
     position: absolute;
     margin-top: 5px;
-    width: 22vw;
-    min-width: 440px;
     padding: 5px;
-    box-shadow: 1px 1px 1px 1px #8f8f9d;
-    border-radius: 5px;
-    background:  white;
+
     border-style: solid;
-    border-width: thin;
-    border-color: #8f8f9d;
+    border-width: 1px;
+
+    background-color: #010409;
+    border-color: #30363d;
+
+    box-shadow: 1px 1px 1px 1px #30363d;
+    border-radius: 5px;
+
+    width:calc(30vw - 32px);
+    min-width:calc(320px + 2vw);
+    max-width:calc(968px + 2vw);
 }
 
 .search-select {
-    cursor:pointer;
+    display: block;
+
     height: 32px;
     width: 100%;
-    border-radius: 5px;
 
-    display: block;
+
     border: none;
+    border-radius: 5px;
     background: none;
 
     text-align: left;
+    color: white;
+
+    cursor:pointer;
 }
 
 .search-select:hover, .search-select:focus{
     outline: none;
     color: white;
-    background: #3584e4;
+    background: rgba(193, 89, 63, 0.5);
 }

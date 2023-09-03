@@ -29,55 +29,24 @@ function CurrentWeather({ data, is_imp }: { data: Current, is_imp: boolean }) {
             <br />
 
             <div id="main">
-                <span id="wind">
-                    <h4>Wind</h4>
-                    <table id="wind-table">
-                        <tbody>
-                            <tr className="tr">
-                                <td className="col">speed</td>
-                                <td className="row">
-                                    {is_imp ? (wind.speed + 'mph') : (getMs(wind.speed))}
-                                </td>
-                            </tr>
-                            <tr className="tr">
-                                <td className="col">degree</td>
-                                <td className="row"> {getDeg(wind.deg)} </td>
-                            </tr>
-                            <tr className="tr">
-                                <td className="col">gust</td>
-                                <td className="row">
-                                    {is_imp ? (wind.gust + 'mph') : (getMs(wind.gust))}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </span>
-
-                <div id="icon-temp">
-                    {icon}
-                    <h4> {is_imp ? (main.temp + '°F') : (getC(main.temp))}</h4>
-
-                </div>
-
                 <span id="temp">
                     <h4>Temperature</h4>
                     <table id="temp-table">
                         <tbody>
                             <tr className="tr">
-                                <td className="col">feels like</td>
+                                <td className="col">Feels like</td>
                                 <td className="row">
                                     {is_imp ? (main.feels_like + '°F') : (getC(main.feels_like))}
                                 </td>
                             </tr>
                             <tr className="tr">
-                                <td className="col">min</td>
+                                <td className="col">Min</td>
                                 <td className="row">
                                     {is_imp ? (main.temp_min + '°F') : (getC(main.temp_min))}
                                 </td>
                             </tr>
                             <tr className="tr">
-                                <td className="col">max</td>
+                                <td className="col">Max</td>
                                 <td className="row">
                                     {is_imp ? (main.temp_max + '°F') : (getC(main.temp_max))}
                                 </td>
@@ -85,6 +54,37 @@ function CurrentWeather({ data, is_imp }: { data: Current, is_imp: boolean }) {
                         </tbody>
                     </table>
                 </span>
+
+                <div id="icon-temp">
+                    {icon}
+                    <h3> {is_imp ? (main.temp + '°F') : (getC(main.temp))}</h3>
+                </div>
+
+                <span id="wind">
+                    <h4>Wind</h4>
+                    <table id="wind-table">
+                        <tbody>
+                            <tr className="tr">
+                                <td className="col">Speed</td>
+                                <td className="row">
+                                    {is_imp ? (wind.speed + 'mph') : (getMs(wind.speed))}
+                                </td>
+                            </tr>
+                            {wind.gust &&
+                                <tr className="tr">
+                                    <td className="col">Gust</td>
+                                    <td className="row">
+                                        {is_imp ? (wind.gust + 'mph') : (getMs(wind.gust))}
+                                    </td>
+                                </tr>}
+                            <tr className="tr">
+                                <td className="col">Direction</td>
+                                <td className="row"> {getDeg(wind.deg)} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </span>
+
             </div>
             <div id="misc">
                 <div>
