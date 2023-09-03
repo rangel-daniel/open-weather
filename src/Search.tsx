@@ -20,7 +20,7 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
     useEffect(() => {
         const handleSearch = async () => {
             if (query.length) {
-                const url = `http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${APPID}`
+                const url = `htts://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${APPID}`
                 const response = await fetch(url);
                 const data = await response.json() as Place[];
                 setResult(data);
