@@ -72,6 +72,7 @@
 #metric, #imperial {
     cursor:pointer;
     padding: 2px;
+    font-size: x-large;
 }
 
 #metric {

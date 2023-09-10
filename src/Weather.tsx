@@ -56,8 +56,8 @@ function Weather({ place }: { place?: Place }) {
                     <div id="right" onClick={() => setIsCurr(false)} style={r_bg}>5 day</div>
                 </div>
                 <span id="unit">
-                    <span id="imperial" onClick={() => setIsImp(true)} style={{ fontWeight: is_imp ? 'bold' : 'lighter' }}>F&deg;</span>
-                    <span id="metric" onClick={() => setIsImp(false)} style={{ fontWeight: is_imp ? 'lighter' : 'bold' }}>C&deg;</span>
+                    <span id="imperial" onClick={() => setIsImp(true)} style={{ fontWeight: is_imp ? 'bold' : '200' }}>F&deg;</span>
+                    <span id="metric" onClick={() => setIsImp(false)} style={{ fontWeight: is_imp ? '200' : 'bold' }}>C&deg;</span>
                 </span>
             </div>
 
