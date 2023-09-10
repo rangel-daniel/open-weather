@@ -1,11 +1,11 @@
 import { BiCurrentLocation } from 'react-icons/bi'
 import { MdLocationPin } from 'react-icons/md'
-import { Dispatch, FocusEvent, KeyboardEvent, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, FocusEvent, KeyboardEvent, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 import { Place } from './App';
 import './Search.css'
 
+const APPID = import.meta.env.VITE_APPID;
 function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefined>> }) {
-    const APPID = import.meta.env.VITE_APPID;
 
     const [query, setQuery] = useState('');
     const [result, setResult] = useState<Place[]>([]);
@@ -30,11 +30,10 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
         }
 
         handleSearch();
-    }, [query, APPID])
+    }, [query])
 
     useEffect(() => {
         document.getElementById('sel' + index)?.focus();
-
     }, [index])
 
 
@@ -46,37 +45,8 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
         }
     }, [typing, navigating])
 
-    const fullName = new Intl.DisplayNames(['en'], { type: 'region' });
-
-    const getGeo = () => {
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                const coords = position.coords;
-                const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${coords.latitude}&lon=${coords.longitude}&appid=${APPID}`;
-
-                try {
-                    const response = await fetch(url);
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.length > 0) {
-                            handleClick(data[0]);
-                        } else {
-                            console.error('No data received from the API');
-                        }
-                    } else {
-                        console.error('Failed to fetch data from the API');
-                    }
-                } catch (error) {
-                    console.error('An error occoured while requesting data from API');
-                }
-            },
-            () => {
-                console.error('An error occoured while requesting data from API');
-            });
-    }
-
-    useEffect(() => {
-        getGeo();
+    const fullName = useMemo(() => {
+        return new Intl.DisplayNames(['en'], { type: 'region' });
     }, []);
 
     const countryStr = (code: string): string => {
@@ -93,8 +63,9 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
     const keyDown = (e: KeyboardEvent) => {
         if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Tab') {
             e.preventDefault();
+            const length = result.length + 1;
             if (e.key === 'ArrowDown' || e.key === 'Tab') {
-                index + 1 < result.length ? setIndex(index + 1) : setIndex(0);
+                index + 1 < length ? setIndex(index + 1) : setIndex(0);
             } else {
                 index - 1 < 0 ? setIndex(result.length - 1) : setIndex(index - 1);
 
@@ -117,34 +88,86 @@ function Search({ setPlace }: { setPlace: Dispatch<SetStateAction<Place | undefi
         setNavigating(false);
     }
 
-    const handleClick = (place: Place) => {
-        const name = place.name;
-        const state = place.state;
+    const handleClick = useCallback(async (place: Place | null) => {
+        if (place === null) {
+            place = await getGeo();
+        }
 
-        place['val'] = `${name}${state ? ', ' + state : ''}, ${place.country}`
+        if (place) {
+            const name = place.name;
+            const state = place.state;
 
-        const country = fullName.of(place.country);
+            place['val'] = `${name}${state ? ', ' + state : ''}, ${place.country}`
 
-        if (country)
-            place['country'] = country;
+            const country = fullName.of(place.country);
 
-        place['string'] = `${name} ${state ? state : ''}, ${place.country} `
-        setQuery(place['val']);
-        setPlace(place);
-        setNavigating(false);
+            if (country) {
+                place['country'] = country;
+            }
+
+            place['string'] = `${name} ${state ? state : ''}, ${place.country} `
+
+            setQuery(place['val']);
+            setPlace(place);
+            setNavigating(false);
+        }
+    }, [fullName, setPlace]);
+
+    useEffect(() => {
+        console.log('sprint');
+        handleClick(null);
+    }, [handleClick])
+
+    const getGeo = async (): Promise<Place | null> => {
+        return new Promise((resolve, reject) => {
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    async (position) => {
+                        const coords = position.coords;
+                        const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${coords.latitude}&lon=${coords.longitude}&appid=${APPID}`;
+
+                        try {
+                            const response = await fetch(url);
+                            if (response.ok) {
+                                const data = await response.json();
+                                if (data.length > 0) {
+                                    resolve(data[0])
+                                } else {
+                                    reject(null)
+                                    console.error('No data received from the API');
+                                }
+                            } else {
+                                reject(null)
+                                console.error('Failed to fetch data from the API');
+                            }
+                        } catch (error) {
+                            reject(null)
+                            console.error('An error occoured while requesting data from API');
+                        }
+                    },
+                    () => {
+                        reject(null)
+                        console.error('An error occoured while requesting data from API');
+                    });
+            } else {
+                console.error('geolocation is not available');
+            }
+        });
     }
 
     return (
         <div id='search-bar'>
             <div className='bar'>
                 <input onKeyDown={(e) => keyDown(e)} id='search' type='search' value={query} placeholder='Search for location' onChange={(e) => setQuery(e.target.value)} onFocus={() => handleSearchFocus()} onBlur={() => setTyping(false)} />
-                <button onClick={() => getGeo()}> <BiCurrentLocation /> </button>
             </div>
             {
                 show && result.length > 0 && (
                     <div id='results'>
+                        <button onFocus={() => setNavigating(true)} onBlur={(e) => handleBtnBlur(e)} onKeyDown={(e) => keyDown(e)} id={'sel' + 0} key={0} className='search-select' onClick={() => handleClick(null)}>
+                            <BiCurrentLocation /> Your location
+                        </button>
                         {result.map((p: Place, i: number) => (
-                            <button onFocus={() => setNavigating(true)} onBlur={(e) => handleBtnBlur(e)} onKeyDown={(e) => keyDown(e)} id={'sel' + i} key={i} className='search-select' onClick={() => handleClick(p)}>
+                            <button onFocus={() => setNavigating(true)} onBlur={(e) => handleBtnBlur(e)} onKeyDown={(e) => keyDown(e)} id={'sel' + (i + 1)} key={i + 1} className='search-select' onClick={() => handleClick(p)}>
                                 <MdLocationPin /> {p.name} {p.state}, {countryStr(p.country)}
                             </button>
                         ))}

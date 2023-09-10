@@ -9,26 +9,16 @@
     height: 32px;
 }
 
-.bar> button{
-    cursor: pointer;
-    width: 32px;
-    border-radius: 0;
-    border-style: none;
-    background-color: #9e511a;
-}
-
 .bar > input{
+    width: 100%;
     background-color: #010409;
     border-color: #30363d;
 
     border-width: 1px;
     border-style: solid;
-    border-right-style: none;
 
     color: white;
     outline: none;
-    flex-grow: 9;
-
 }
 
 #results {
@@ -45,9 +35,9 @@
     box-shadow: 1px 1px 1px 1px #30363d;
     border-radius: 5px;
 
-    width:calc(30vw - 32px);
-    min-width:calc(320px + 2vw);
-    max-width:calc(968px + 2vw);
+    width:calc(30vw - 10px);
+    min-width:calc(342px + 2vw);
+    max-width:calc(990px + 2vw);
 }
 
 .search-select {
